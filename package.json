@@ -1,4 +1,7 @@
 {
+  "name": "claudia-test",
+  "private": true,
+  "version": "0.0.0",
   "dependencies": {
     "claudia-bot-builder": "^2.15.0"
   },
