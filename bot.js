@@ -14,9 +14,9 @@ module.exports = botBuilder(function(request) {
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
 
   return JSDOM.fromURL(rulesUrl).then(dom => {
-    return (
-      replyPrefix +
-      dom.window.document.querySelector("ol").children[ruleIndex].textContent
-    );
+    const rules = dom.window.document.querySelector("ol").children;
+    const rule = rules[ruleIndex];
+
+    return replyPrefix + rule.textContent;
   });
 });
