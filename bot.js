@@ -2,9 +2,10 @@ var botBuilder = require("claudia-bot-builder");
 const { JSDOM } = require("jsdom");
 
 module.exports = botBuilder(function(request) {
-  const ruleNumber = Number.parseInt(request.text);
+  const { text } = request;
+  const ruleNumber = Number.parseInt(text);
   const ruleIndex = ruleNumber - 1;
-  const isNyc = request.text.match(/nyc/i);
+  const isNyc = text.match(/nyc/i);
   const rulesUrl = isNyc
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
