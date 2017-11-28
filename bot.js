@@ -9,9 +9,12 @@ module.exports = botBuilder(function(request) {
   const rulesUrl = isNyc
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
+  const replyPrefix = `${isNyc ? "NYC " : ""}Rule ${ruleNumber}: `;
 
   return JSDOM.fromURL(rulesUrl).then(dom => {
-    return dom.window.document.querySelector("ol").children[ruleIndex]
-      .textContent;
+    return (
+      replyPrefix +
+      dom.window.document.querySelector("ol").children[ruleIndex].textContent
+    );
   });
 });
