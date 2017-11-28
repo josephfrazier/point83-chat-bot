@@ -1,5 +1,6 @@
 var botBuilder = require("claudia-bot-builder");
-const { JSDOM } = require("jsdom");
+const fetch = require("node-fetch");
+const cheerio = require("cheerio");
 
 module.exports = botBuilder(function(request) {
   const { text } = request;
@@ -13,10 +14,13 @@ module.exports = botBuilder(function(request) {
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
 
-  return JSDOM.fromURL(rulesUrl).then(dom => {
-    const rules = dom.window.document.querySelector("ol").children;
-    const rule = rules[ruleIndex];
+  return fetch(rulesUrl)
+    .then(res => res.text())
+    .then(body => cheerio.load(body))
+    .then($ => {
+      const rules = $("ol").children();
+      const rule = $(rules[ruleIndex]);
 
-    return replyPrefix + rule.textContent;
-  });
+      return replyPrefix + rule.text();
+    });
 });

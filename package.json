@@ -3,8 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "claudia-bot-builder": "^2.15.0",
-    "jsdom": "^11.5.1"
+    "node-fetch": "^1.7.3"
   },
   "devDependencies": {
     "claudia": "^2.14.3"
