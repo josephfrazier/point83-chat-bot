@@ -3,7 +3,7 @@ const { JSDOM } = require("jsdom");
 
 module.exports = botBuilder(function(request) {
   const { text } = request;
-  const ruleNumber = Number.parseInt(text);
+  const ruleNumber = Number.parseInt(text.match(/rule (\d+)/i)[1]);
   const ruleIndex = ruleNumber - 1;
   const isNyc = text.match(/nyc/i);
   const rulesUrl = isNyc
