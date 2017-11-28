@@ -1,4 +1,4 @@
-var botBuilder = require("claudia-bot-builder");
+const botBuilder = require("claudia-bot-builder");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 
