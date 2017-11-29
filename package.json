@@ -6,7 +6,11 @@
     "lint": "prettier --list-different *js",
     "format": "prettier --write *js",
     "pretest": "yarn lint",
-    "test": "node bot.js"
+    "test": "node bot.js",
+    "pretest-deploy": "yarn test",
+    "test-deploy": "echo $GROUPME_BOT_ID_TEST | yarn claudia update --configure-groupme-bot --timeout 10 --version test",
+    "predeploy": "yarn test",
+    "deploy": "echo $GROUPME_BOT_ID | yarn claudia update --configure-groupme-bot --timeout 10"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
