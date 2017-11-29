@@ -2,12 +2,17 @@
   "name": "claudia-test",
   "private": true,
   "version": "0.0.0",
+  "scripts": {
+    "lint": "prettier --list-different *js",
+    "format": "prettier --write *js"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "claudia-bot-builder": "^2.15.0",
     "node-fetch": "^1.7.3"
   },
   "devDependencies": {
-    "claudia": "^2.14.3"
+    "claudia": "^2.14.3",
+    "prettier": "^1.8.2"
   }
 }
