@@ -33,8 +33,11 @@ function getReplyForText({ text }) {
     .then($ => {
       console.time("rule text");
       const rules = $("ol").children();
-      const rule = $(rules[ruleIndex]);
-      const ruleText = rule.text();
+      const rule = rules[ruleIndex];
+      if (!rule) {
+        throw new Error("No such rule");
+      }
+      const ruleText = $(rule).text();
       console.timeEnd("rule text");
 
       return replyPrefix + ruleText;
