@@ -5,6 +5,10 @@ const cheerio = require("cheerio");
 module.exports = botBuilder(getReplyForText, { platforms: ["groupme"] });
 
 function getReplyForText({ text }) {
+  if (text.match(/@point83/i)) {
+    throw new Error("Message was meant for another bot");
+  }
+
   const ruleNumber = Number.parseInt(text.match(/rule (\d+)/i)[1]);
   const ruleIndex = ruleNumber - 1;
 
