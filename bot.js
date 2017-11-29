@@ -40,3 +40,10 @@ function getReplyForText({ text }) {
       return replyPrefix + ruleText;
     });
 }
+
+if (typeof require != "undefined" && require.main == module) {
+  getReplyForText({ text: "nyc rule 3" })
+    .then(console.log)
+    .then(() => getReplyForText({ text: "rule 34" }))
+    .then(console.log);
+}
