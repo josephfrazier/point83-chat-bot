@@ -20,7 +20,8 @@ function getReplyForText({ text }) {
     .then($ => {
       const rules = $("ol").children();
       const rule = $(rules[ruleIndex]);
+      const ruleText = rule.text();
 
-      return replyPrefix + rule.text();
+      return replyPrefix + ruleText;
     });
 }
