@@ -1,6 +1,11 @@
 const botBuilder = require("claudia-bot-builder");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
+const TurndownService = require("turndown");
+
+const turndownService = new TurndownService({
+  linkStyle: "referenced"
+});
 
 module.exports = botBuilder(getReplyForText, { platforms: ["groupme"] });
 
@@ -37,7 +42,8 @@ function getReplyForText({ text }) {
       if (!rule) {
         throw new Error("No such rule");
       }
-      const ruleText = $(rule).text();
+      const ruleHtml = $(rule).html();
+      const ruleText = turndownService.turndown(ruleHtml);
       console.timeEnd("rule text");
 
       return replyPrefix + ruleText;

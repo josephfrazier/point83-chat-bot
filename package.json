@@ -15,7 +15,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "claudia-bot-builder": "^2.15.0",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "turndown": "^4.0.0-rc.3"
   },
   "devDependencies": {
     "claudia": "^2.14.3",
