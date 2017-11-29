@@ -45,6 +45,12 @@ function getReplyForText({ text }) {
 }
 
 if (typeof require != "undefined" && require.main == module) {
+  const cliText = process.argv.slice(2).join(" ");
+  if (cliText) {
+    getReplyForText({ text: cliText }).then(console.log);
+    return;
+  }
+
   getReplyForText({ text: "nyc rule 3" })
     .then(console.log)
     .then(() => getReplyForText({ text: "rule 34" }))
