@@ -1,3 +1,5 @@
+const url = require("url");
+
 const botBuilder = require("claudia-bot-builder");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
@@ -42,6 +44,9 @@ function getReplyForText({ text }) {
       if (!rule) {
         throw new Error("No such rule");
       }
+      $("a", rule).attr("href", (_, href) =>
+        url.resolve(rulesUrl, href || "#")
+      );
       const ruleHtml = $(rule).html();
       const ruleText = turndownService.turndown(ruleHtml);
       console.timeEnd("rule text");
@@ -60,5 +65,7 @@ if (typeof require != "undefined" && require.main == module) {
   getReplyForText({ text: "nyc rule 3" })
     .then(console.log)
     .then(() => getReplyForText({ text: "rule 34" }))
+    .then(console.log)
+    .then(() => getReplyForText({ text: "rule 19" }))
     .then(console.log);
 }
