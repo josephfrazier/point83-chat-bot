@@ -47,6 +47,7 @@ function getReplyForText({ text }) {
       $("a", rule).attr("href", (_, href) =>
         url.resolve(rulesUrl, href || "#")
       );
+      $("a", rule).removeAttr("title");
       const ruleHtml = $(rule).html();
       const ruleText = turndownService.turndown(ruleHtml);
       console.timeEnd("rule text");
