@@ -12,6 +12,8 @@ const turndownService = new TurndownService({
 module.exports = botBuilder(getReplyForText, { platforms: ["groupme"] });
 
 function getReplyForText({ text }) {
+  console.log();
+
   if (text.match(/@point83/i)) {
     throw new Error("Message was meant for another bot");
   }
@@ -51,6 +53,8 @@ function getReplyForText({ text }) {
       const ruleHtml = $(rule).html();
       const ruleText = turndownService.turndown(ruleHtml);
       console.timeEnd("rule text");
+
+      console.log();
 
       return replyPrefix + ruleText;
     });
