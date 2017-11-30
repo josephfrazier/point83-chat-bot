@@ -16,6 +16,8 @@
     "cheerio": "^1.0.0-rc.2",
     "claudia-bot-builder": "^2.15.0",
     "node-fetch": "^1.7.3",
+    "random-item": "^1.0.0",
+    "semeval2017_task7": "^0.0.1",
     "turndown": "^4.0.0-rc.3"
   },
   "devDependencies": {

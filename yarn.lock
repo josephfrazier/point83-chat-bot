@@ -965,6 +965,10 @@ querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
+random-item@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/random-item/-/random-item-1.0.0.tgz#16ee31626cb050c8a1686a5f0f42a6b99a2aaf11"
+
 raw-body@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.2.tgz#bcd60c77d3eb93cde0050295c3f379389bc88f89"
@@ -1051,6 +1055,10 @@ sax@1.2.1:
 sax@>=0.6.0, sax@^1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
+
+semeval2017_task7@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/semeval2017_task7/-/semeval2017_task7-0.0.1.tgz#764f4b81b78233408274b6774379830c4ce9bcc9"
 
 semver@~5.0.1:
   version "5.0.3"

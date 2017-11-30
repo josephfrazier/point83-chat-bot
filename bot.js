@@ -4,6 +4,11 @@ const botBuilder = require("claudia-bot-builder");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const TurndownService = require("turndown");
+const randomItem = require("random-item");
+
+const puns = require("semeval2017_task7").map(({ words }) =>
+  words.join(" ").replace(/ ([.,!])/g, "$1")
+);
 
 const turndownService = new TurndownService({
   linkStyle: "referenced"
@@ -56,7 +61,13 @@ function getReplyForText({ text }) {
 
       console.log();
 
-      return replyPrefix + ruleText;
+      let replyText = replyPrefix + ruleText;
+
+      if (isNyc && ruleNumber === 20) {
+        replyText += "\n\nHere's a pun: " + randomItem(puns);
+      }
+
+      return replyText;
     });
 }
 
@@ -72,5 +83,7 @@ if (typeof require != "undefined" && require.main == module) {
     .then(() => getReplyForText({ text: "rule 34" }))
     .then(console.log)
     .then(() => getReplyForText({ text: "rule 19" }))
+    .then(console.log)
+    .then(() => getReplyForText({ text: "nyc rule 20" }))
     .then(console.log);
 }
