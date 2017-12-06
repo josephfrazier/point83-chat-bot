@@ -224,6 +224,17 @@ claudia-bot-builder@^2.15.0:
     souffleur "^1.0.0"
     tsscmp "^1.0.5"
 
+"claudia-bot-builder@https://github.com/josephfrazier/claudia-bot-builder#50cb7a8b4106023ab798d9a09aef9bb78f01e82b":
+  version "2.15.1"
+  resolved "https://github.com/josephfrazier/claudia-bot-builder#50cb7a8b4106023ab798d9a09aef9bb78f01e82b"
+  dependencies:
+    alexa-message-builder "^1.1.0"
+    claudia-api-builder "^2.0.1"
+    minimal-request-promise "^1.3.0"
+    oh-no-i-insist "^1.0.0"
+    souffleur "^1.0.0"
+    tsscmp "^1.0.5"
+
 claudia@^2.14.3:
   version "2.14.3"
   resolved "https://registry.yarnpkg.com/claudia/-/claudia-2.14.3.tgz#6bd7bfe21e27e8111c77068eee6438c336193104"
