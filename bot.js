@@ -1,6 +1,7 @@
 const url = require("url");
 
 const botBuilder = require("claudia-bot-builder");
+const execall = require("execall");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const TurndownService = require("turndown");
@@ -23,11 +24,11 @@ function getReplyForText({ text }) {
     throw new Error("Message was meant for another bot");
   }
 
-  const ruleNumber = Number.parseInt(text.match(/rule (\d+)/i)[1]);
-  const ruleIndex = ruleNumber - 1;
+  const ruleNumbers = execall(/rule (\d+)/gi, text).map(({ sub }) =>
+    Number.parseInt(sub[0])
+  );
 
   const isNyc = text.match(/nyc/i);
-  const replyPrefix = `${isNyc ? "NYC " : ""}Rule ${ruleNumber}: `;
   const rulesUrl = isNyc
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
@@ -45,29 +46,34 @@ function getReplyForText({ text }) {
       return result;
     })
     .then($ => {
-      console.time("rule text");
-      const rules = $("ol").children();
-      const rule = rules[ruleIndex];
-      if (!rule) {
-        throw new Error("No such rule");
-      }
-      $("a", rule).attr("href", (_, href) =>
-        url.resolve(rulesUrl, href || "#")
-      );
-      $("a", rule).removeAttr("title");
-      const ruleHtml = $(rule).html();
-      const ruleText = turndownService.turndown(ruleHtml);
-      console.timeEnd("rule text");
+      return ruleNumbers.map(ruleNumber => {
+        const replyPrefix = `${isNyc ? "NYC " : ""}Rule ${ruleNumber}: `;
+        const ruleIndex = ruleNumber - 1;
 
-      console.log();
+        console.time("rule text");
+        const rules = $("ol").children();
+        const rule = rules[ruleIndex];
+        if (!rule) {
+          throw new Error("No such rule");
+        }
+        $("a", rule).attr("href", (_, href) =>
+          url.resolve(rulesUrl, href || "#")
+        );
+        $("a", rule).removeAttr("title");
+        const ruleHtml = $(rule).html();
+        const ruleText = turndownService.turndown(ruleHtml);
+        console.timeEnd("rule text");
 
-      let replyText = replyPrefix + ruleText;
+        console.log();
 
-      if (isNyc && ruleNumber === 20) {
-        replyText += "\n\nHere's a pun: " + randomItem(puns);
-      }
+        let replyText = replyPrefix + ruleText;
 
-      return replyText;
+        if (isNyc && ruleNumber === 20) {
+          replyText += "\n\nHere's a pun: " + randomItem(puns);
+        }
+
+        return replyText;
+      });
     });
 }
 
@@ -85,5 +91,7 @@ if (typeof require != "undefined" && require.main == module) {
     .then(() => getReplyForText({ text: "rule 19" }))
     .then(console.log)
     .then(() => getReplyForText({ text: "nyc rule 20" }))
+    .then(console.log)
+    .then(() => getReplyForText({ text: "rule 17 and rule 71" }))
     .then(console.log);
 }
