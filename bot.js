@@ -46,35 +46,42 @@ function getReplyForText({ text }) {
       return result;
     })
     .then($ => {
-      return ruleNumbers.map(ruleNumber => {
-        const replyPrefix = `${isNyc ? "NYC " : ""}Rule ${ruleNumber}: `;
-        const ruleIndex = ruleNumber - 1;
-
-        console.time("rule text");
-        const rules = $("ol").children();
-        const rule = rules[ruleIndex];
-        if (!rule) {
-          throw new Error("No such rule");
-        }
-        $("a", rule).attr("href", (_, href) =>
-          url.resolve(rulesUrl, href || "#")
-        );
-        $("a", rule).removeAttr("title");
-        const ruleHtml = $(rule).html();
-        const ruleText = turndownService.turndown(ruleHtml);
-        console.timeEnd("rule text");
-
-        console.log();
-
-        let replyText = replyPrefix + ruleText;
-
-        if (isNyc && ruleNumber === 20) {
-          replyText += "\n\nHere's a pun: " + randomItem(puns);
-        }
-
-        return replyText;
-      });
+      return ruleNumbers.map(ruleNumber =>
+        getReplyForRule({
+          ruleNumber,
+          isNyc,
+          $,
+          rulesUrl
+        })
+      );
     });
+}
+
+function getReplyForRule({ ruleNumber, isNyc, $, rulesUrl }) {
+  const replyPrefix = `${isNyc ? "NYC " : ""}Rule ${ruleNumber}: `;
+  const ruleIndex = ruleNumber - 1;
+
+  console.time("rule text");
+  const rules = $("ol").children();
+  const rule = rules[ruleIndex];
+  if (!rule) {
+    throw new Error("No such rule");
+  }
+  $("a", rule).attr("href", (_, href) => url.resolve(rulesUrl, href || "#"));
+  $("a", rule).removeAttr("title");
+  const ruleHtml = $(rule).html();
+  const ruleText = turndownService.turndown(ruleHtml);
+  console.timeEnd("rule text");
+
+  console.log();
+
+  let replyText = replyPrefix + ruleText;
+
+  if (isNyc && ruleNumber === 20) {
+    replyText += "\n\nHere's a pun: " + randomItem(puns);
+  }
+
+  return replyText;
 }
 
 if (typeof require != "undefined" && require.main == module) {
