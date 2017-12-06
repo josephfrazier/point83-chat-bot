@@ -7,7 +7,7 @@ const TurndownService = require("turndown");
 const randomItem = require("random-item");
 
 const puns = require("semeval2017_task7").map(({ words }) =>
-  words.join(" ").replace(/ ([.,!])/g, "$1")
+  words.join(" ").replace(/ ([.,!;?])/g, "$1")
 );
 
 const turndownService = new TurndownService({
