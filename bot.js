@@ -33,20 +33,20 @@ function getReplyForText({ text }) {
 }
 
 function getRules({ text }) {
-  const isNyc = text.match(/nyc/i);
-  const rulesUrl = isNyc
-    ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
-    : "http://www.point83.com/tos/index.php?title=Basic_rules";
-
   return Promise.all(
-    execall(/rule (\d+)/gi, text).map(({ sub }) =>
-      fetchCheerioMemoized(rulesUrl).then($ => ({
+    execall(/rule (\d+)/gi, text).map(({ sub }) => {
+      const isNyc = text.match(/nyc/i);
+      const rulesUrl = isNyc
+        ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
+        : "http://www.point83.com/tos/index.php?title=Basic_rules";
+
+      return fetchCheerioMemoized(rulesUrl).then($ => ({
         ruleNumber: Number.parseInt(sub[0]),
         isNyc,
         rulesUrl,
         $
-      }))
-    )
+      }));
+    })
   );
 }
 
