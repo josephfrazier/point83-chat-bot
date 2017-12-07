@@ -24,9 +24,7 @@ function getReplyForText({ text }) {
     throw new Error("Message was meant for another bot");
   }
 
-  const ruleNumbers = execall(/rule (\d+)/gi, text).map(({ sub }) =>
-    Number.parseInt(sub[0])
-  );
+  const ruleNumbers = getRuleNumbers({ text });
 
   const isNyc = text.match(/nyc/i);
   const rulesUrl = isNyc
@@ -55,6 +53,12 @@ function getReplyForText({ text }) {
         })
       );
     });
+}
+
+function getRuleNumbers({ text }) {
+  return execall(/rule (\d+)/gi, text).map(({ sub }) =>
+    Number.parseInt(sub[0])
+  );
 }
 
 function getReplyForRule({ ruleNumber, isNyc, $, rulesUrl }) {
