@@ -16,6 +16,7 @@
     "cheerio": "^1.0.0-rc.2",
     "claudia-bot-builder": "https://github.com/josephfrazier/claudia-bot-builder#50cb7a8b4106023ab798d9a09aef9bb78f01e82b",
     "execall": "^1.0.0",
+    "mem": "^3.0.0",
     "node-fetch": "^1.7.3",
     "random-item": "^1.0.0",
     "semeval2017_task7": "^0.0.1",

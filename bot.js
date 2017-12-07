@@ -6,6 +6,7 @@ const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const TurndownService = require("turndown");
 const randomItem = require("random-item");
+const mem = require("mem");
 
 const puns = require("semeval2017_task7").map(({ words }) =>
   words.join(" ").replace(/ ([.,!;?])/g, "$1")
@@ -14,6 +15,8 @@ const puns = require("semeval2017_task7").map(({ words }) =>
 const turndownService = new TurndownService({
   linkStyle: "referenced"
 });
+
+const fetchCheerioMemoized = mem(fetchCheerio);
 
 module.exports = botBuilder(getReplyForText, { platforms: ["groupme"] });
 
@@ -31,7 +34,7 @@ function getReplyForText({ text }) {
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
 
-  return fetchCheerio(rulesUrl).then($ => {
+  return fetchCheerioMemoized(rulesUrl).then($ => {
     return ruleNumbers.map(ruleNumber =>
       getReplyForRule({
         ruleNumber,
