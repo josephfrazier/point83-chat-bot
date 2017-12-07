@@ -34,8 +34,8 @@ function getReplyForText({ text }) {
 
 function getRules({ text }) {
   return Promise.all(
-    execall(/rule (\d+)/gi, text).map(({ sub }) => {
-      const isNyc = text.match(/nyc/i);
+    execall(/(?:nyc )?rule (\d+)(?: nyc)?/gi, text).map(({ match, sub }) => {
+      const isNyc = match.match(/nyc/i);
       const rulesUrl = isNyc
         ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
         : "http://www.point83.com/tos/index.php?title=Basic_rules";
@@ -108,5 +108,7 @@ if (typeof require != "undefined" && require.main == module) {
     .then(() => getReplyForText({ text: "nyc rule 20" }))
     .then(console.log)
     .then(() => getReplyForText({ text: "rule 17 and rule 71" }))
+    .then(console.log)
+    .then(() => getReplyForText({ text: "NYC rule 6 and rule 6" }))
     .then(console.log);
 }
