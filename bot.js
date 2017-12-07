@@ -38,13 +38,15 @@ function getRules({ text }) {
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
 
-  return fetchCheerioMemoized(rulesUrl).then($ =>
-    execall(/rule (\d+)/gi, text).map(({ sub }) => ({
-      ruleNumber: Number.parseInt(sub[0]),
-      isNyc,
-      rulesUrl,
-      $
-    }))
+  return Promise.all(
+    execall(/rule (\d+)/gi, text).map(({ sub }) =>
+      fetchCheerioMemoized(rulesUrl).then($ => ({
+        ruleNumber: Number.parseInt(sub[0]),
+        isNyc,
+        rulesUrl,
+        $
+      }))
+    )
   );
 }
 
