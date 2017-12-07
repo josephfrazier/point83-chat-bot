@@ -31,15 +31,15 @@ function getReplyForText({ text }) {
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
 
-  console.time("fetch");
+  console.time(`fetch ${rulesUrl}`);
   return fetch(rulesUrl)
     .then(res => res.text())
     .then(body => {
-      console.timeEnd("fetch");
+      console.timeEnd(`fetch ${rulesUrl}`);
 
-      console.time("cheerio.load");
+      console.time(`cheerio.load ${rulesUrl}`);
       const result = cheerio.load(body);
-      console.timeEnd("cheerio.load");
+      console.timeEnd(`cheerio.load ${rulesUrl}`);
 
       return result;
     })
@@ -65,7 +65,7 @@ function getReplyForRule({ ruleNumber, isNyc, $, rulesUrl }) {
   const replyPrefix = `${isNyc ? "NYC " : ""}Rule ${ruleNumber}: `;
   const ruleIndex = ruleNumber - 1;
 
-  console.time("rule text");
+  console.time(`extract text for ${replyPrefix}`);
   const rules = $("ol").children();
   const rule = rules[ruleIndex];
   if (!rule) {
@@ -75,7 +75,7 @@ function getReplyForRule({ ruleNumber, isNyc, $, rulesUrl }) {
   $("a", rule).removeAttr("title");
   const ruleHtml = $(rule).html();
   const ruleText = turndownService.turndown(ruleHtml);
-  console.timeEnd("rule text");
+  console.timeEnd(`extract text for ${replyPrefix}`);
 
   console.log();
 
