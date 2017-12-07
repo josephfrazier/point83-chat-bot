@@ -31,6 +31,25 @@ function getReplyForText({ text }) {
     ? "http://www.point83.com/tos/index.php?title=Basic_Rules_(NYC_Addendum)"
     : "http://www.point83.com/tos/index.php?title=Basic_rules";
 
+  return fetchCheerio(rulesUrl).then($ => {
+    return ruleNumbers.map(ruleNumber =>
+      getReplyForRule({
+        ruleNumber,
+        isNyc,
+        $,
+        rulesUrl
+      })
+    );
+  });
+}
+
+function getRuleNumbers({ text }) {
+  return execall(/rule (\d+)/gi, text).map(({ sub }) =>
+    Number.parseInt(sub[0])
+  );
+}
+
+function fetchCheerio(rulesUrl) {
   console.time(`fetch ${rulesUrl}`);
   return fetch(rulesUrl)
     .then(res => res.text())
@@ -42,23 +61,7 @@ function getReplyForText({ text }) {
       console.timeEnd(`cheerio.load ${rulesUrl}`);
 
       return result;
-    })
-    .then($ => {
-      return ruleNumbers.map(ruleNumber =>
-        getReplyForRule({
-          ruleNumber,
-          isNyc,
-          $,
-          rulesUrl
-        })
-      );
     });
-}
-
-function getRuleNumbers({ text }) {
-  return execall(/rule (\d+)/gi, text).map(({ sub }) =>
-    Number.parseInt(sub[0])
-  );
 }
 
 function getReplyForRule({ ruleNumber, isNyc, $, rulesUrl }) {
